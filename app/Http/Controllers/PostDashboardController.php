@@ -19,7 +19,7 @@ class PostDashboardController extends Controller
             $posts->where('title', 'like', '%' . request('keyword') . '%');
         }
 
-        return view('dashboard', [
+        return view('dashboard.index', [
             'posts' => $posts->paginate(5)->withQueryString(),
         ]);
     }
@@ -43,9 +43,11 @@ class PostDashboardController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Post $post)
     {
-        //
+        return view('dashboard.show', [
+            'post' => $post,
+        ]);
     }
 
     /**
