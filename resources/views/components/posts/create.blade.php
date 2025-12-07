@@ -5,7 +5,9 @@
         <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Add Post</h3>
     </div>
     <!-- Modal body -->
-    <form action="#">
+    <form action="/dashboard" method="POST">
+        @csrf
+
         <div class="mb-4">
             <label for="title"
                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Title</label>
@@ -18,19 +20,21 @@
                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category</label>
             <select
                     id="category"
-                    class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                <option selected="">Select post category</option>
+                    name="category_id"
+                    class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    required>
+                <option value="" disabled selected>Select post category</option>
 
                 @foreach(App\Models\Category::get() as $category)
-                    <option value={{ $category->id }}>{{ $category->name }}</option>
+                    <option value="{{ $category->id }}">{{ $category->name }}</option>
                 @endforeach
             </select>
         </div>
         <div class="sm:col-span-2 mb-4"><label for="body"
                                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Body</label><textarea
-                    id="body" rows="4"
+                    id="body" name="body" rows="4"
                     class="block p-2.5 w-full text-sm text-gray-900  rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    placeholder="Write post body here"></textarea></div>
+                    placeholder="Write post body here" required></textarea></div>
         <div class="flex gap-2">
             <button type="submit"
                     class="text-white inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">

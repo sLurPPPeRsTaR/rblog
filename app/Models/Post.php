@@ -11,7 +11,7 @@ class Post extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'slug', 'excerpt', 'body'];
+    protected $fillable = ['title', 'slug', 'body', 'author_id', 'category_id'];
 
     protected $with = ['author', 'category'];
 
@@ -28,20 +28,20 @@ class Post extends Model
     public function scopeFilter(Builder $query, array $filters)
     {
         $query->when($filters['search'] ?? false, function ($query, $search) {
-            $query->where('title', 'like', '%'.$search.'%');
+            $query->where('title', 'like', '%' . $search . '%');
         });
 
         $query->when($filters['category'] ?? false, function ($query, $category) {
             return $query->whereHas(
                 'category',
-                fn (Builder $query) => $query->where('slug', $category)
+                fn(Builder $query) => $query->where('slug', $category)
             );
         });
 
         $query->when($filters['author'] ?? false, function ($query, $author) {
             return $query->whereHas(
                 'author',
-                fn (Builder $query) => $query->where('username', $author)
+                fn(Builder $query) => $query->where('username', $author)
             );
         });
     }
