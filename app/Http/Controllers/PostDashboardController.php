@@ -29,7 +29,7 @@ class PostDashboardController extends Controller
      */
     public function create()
     {
-        //
+        return view('dashboard.create');
     }
 
     /**
