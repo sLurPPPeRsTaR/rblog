@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PostDashboardController extends Controller
 {
@@ -12,8 +13,14 @@ class PostDashboardController extends Controller
      */
     public function index()
     {
+        $posts = Post::latest()->where('author_id', Auth::user()->id);
+
+        if (request('keyword')) {
+            $posts->where('title', 'like', '%' . request('keyword') . '%');
+        }
+
         return view('dashboard', [
-            'posts' => Post::latest()->paginate(7)->withQueryString(),
+            'posts' => $posts->paginate(5)->withQueryString(),
         ]);
     }
 
