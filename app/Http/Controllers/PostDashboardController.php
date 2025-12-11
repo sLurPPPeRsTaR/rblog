@@ -79,17 +79,38 @@ class PostDashboardController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Post $post)
     {
-        //
+        return view('dashboard.edit', [
+            'post' => $post,
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Post $post)
     {
-        //
+        Validator::make($request->all(), [
+            'title' => 'required|unique:posts,title' . $post->id,
+            'category_id' => 'required',
+            'body' => 'required',
+        ], [
+            'title.required' => 'title cannot be empty darling.',
+            'category_id.required' => 'category cannot be empty darling.',
+            'body.required' => 'body cannot be empty darling.',
+        ])->validate();
+
+        $post->update([
+            'title' => $request->title,
+            'slug' => Str::slug($request->title),
+            'author_id' => Auth::user()->id,
+            'category_id' => $request->category_id,
+            'body' => $request->body,
+        ]);
+
+        return redirect('/dashboard')->with(['success' => 'Your post has been removed!']);
+
     }
 
     /**
