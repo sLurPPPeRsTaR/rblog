@@ -24,7 +24,7 @@ class ProfileUpdateRequest extends FormRequest
                 'max:16',
                 'alpha_num',
                 Rule::unique(User::class)->ignore($this->user()->id),
-            ],   'email' => [
+            ], 'email' => [
                 'required',
                 'string',
                 'lowercase',
@@ -32,6 +32,7 @@ class ProfileUpdateRequest extends FormRequest
                 'max:255',
                 Rule::unique(User::class)->ignore($this->user()->id),
             ],
+            "avatar" => ["nullable", "image", "max:1024"],
         ];
     }
 }
