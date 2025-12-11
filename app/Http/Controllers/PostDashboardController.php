@@ -45,11 +45,11 @@ class PostDashboardController extends Controller
 //            'body' => 'required',
 //        ]);
 
-        Validator::make($request->all(),[
+        Validator::make($request->all(), [
             'title' => 'required|unique:posts,title',
             'category_id' => 'required',
             'body' => 'required',
-        ],[
+        ], [
             'title.required' => 'title cannot be empty darling.',
             'category_id.required' => 'category cannot be empty darling.',
             'body.required' => 'body cannot be empty darling.',
@@ -95,8 +95,9 @@ class PostDashboardController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Post $post)
     {
-        //
+        $post->delete();
+        return redirect('/dashboard')->with(['success' => 'Your post has been removed!']);
     }
 }
